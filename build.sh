@@ -6,18 +6,11 @@ mkdir_if_not_exists() {
     fi
 }
 
-initialize() {
-    cwd=`dirname "${0}"`
-    expr "${0}" : "/.*" > /dev/null || cwd=`(cd "${cwd}" && pwd)`
+export GOPATH=$(cd $(dirname $0) && pwd)
 
-    GOPATH=${cwd}
-
-    mkdir_if_not_exists bin/linux
-    mkdir_if_not_exists bin/windows
-    mkdir_if_not_exists bin/mac
-}
-
-initialize
+mkdir_if_not_exists bin/linux
+mkdir_if_not_exists bin/windows
+mkdir_if_not_exists bin/mac
 
 go build -o bin/linux/gotransfer src/gotransfer.go
 GOOS=windows go build -o bin/windows/gotransfer.exe src/gotransfer.go
